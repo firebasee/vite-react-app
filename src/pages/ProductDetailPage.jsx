@@ -17,6 +17,7 @@ import LoadingSpinner from "../components/common/LoadingSpinner";
 import usePageTitle from "../hooks/usePageTitle";
 import useCartStore from "../store/useCartStore";
 import { useCallback } from "react";
+import { showNotification } from "@mantine/notifications";
 
 function ProductDetailPage() {
   const { id } = useParams();
@@ -27,6 +28,14 @@ function ProductDetailPage() {
   const handleAddToCart = useCallback(
     (product) => {
       addToCart(product);
+      showNotification({
+        message: `Added ${product.title} to cart`,
+        title: "Item added",
+        autoClose: 2000,
+        color: "green",
+        radius: "md",
+        sx: (theme) => ({ backgroundColor: theme.colors.green[500] }),
+      });
     },
     [addToCart]
   );
@@ -45,6 +54,9 @@ function ProductDetailPage() {
         display: "flex",
         columnGap: "44px",
         padding: theme.spacing.lg,
+        [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+          flexDirection: "column",
+        },
       })}
     >
       <Box

@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import useSWR from "swr";
 import { Alert, Grid } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
 import ProductCard from "../components/product/ProductCard";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 import usePageTitle from "../hooks/usePageTitle";
@@ -15,6 +16,14 @@ function ProductListPage() {
   const handleAddToCart = useCallback(
     (product) => {
       addToCart(product);
+      showNotification({
+        message: `Added ${product.title} to cart`,
+        title: "Item added",
+        autoClose: 2000,
+        color: "green",
+        radius: "md",
+        sx: (theme) => ({ backgroundColor: theme.colors.green[500] }),
+      });
     },
     [addToCart]
   );

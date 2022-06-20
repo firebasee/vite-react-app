@@ -41,11 +41,17 @@ function RegisterPage() {
       sx={(theme) => ({
         position: "relative",
         margin: "auto",
-        width: "20%",
+        width: "30%",
         backgroundColor: theme.colors.gray[0],
         borderRadius: theme.radius.md,
         padding: "2rem",
         boxShadow: theme.shadows.md,
+        [`@media (max-width:${theme.breakpoints.xs}px)`]: {
+          width: "90%",
+        },
+        [`@media (max-width:${theme.breakpoints.sm}px)`]: {
+          width: "60%",
+        },
       })}
       onSubmit={handleSubmit(onRegister)}
     >

@@ -8,12 +8,12 @@ function CartSummary({ total }) {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "space-around",
-        rowGap: 65,
+        rowGap: 35,
         height: "auto",
         padding: theme.spacing.xl,
         boder: "1px solid #615f5f",
         boxShadow: theme.shadows.md,
-        borderRadius: theme.radius.md,
+        borderRadius: theme.radius.lg,
         textAlign: "center",
       })}
     >
