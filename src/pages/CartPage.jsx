@@ -10,6 +10,7 @@ function CartPage() {
   const setTotalPrice = useCartStore((state) => state.setTotalPrice);
   const removeFromCart = useCartStore((state) => state.removeFromCart);
   const totalPrice = useCartStore((state) => state.totalPrice);
+  const setCartItemCount = useCartStore((state) => state.setCartItemCount);
 
   const handleRemoveFromCart = useCallback(
     (item) => {
@@ -28,6 +29,7 @@ function CartPage() {
 
   useEffect(() => {
     setTotalPrice();
+    setCartItemCount();
   }, [cart]);
 
   return (

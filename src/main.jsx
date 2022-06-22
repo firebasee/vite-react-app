@@ -11,7 +11,7 @@ root.render(
   <React.StrictMode>
     <HashRouter>
       <MantineProvider withNormalizeCSS>
-        <NotificationsProvider position="top-center" limit={3}>
+        <NotificationsProvider position="top-left" limit={3}>
           <App />
         </NotificationsProvider>
       </MantineProvider>

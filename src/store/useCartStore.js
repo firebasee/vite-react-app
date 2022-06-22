@@ -5,6 +5,7 @@ const useCartStore = create((set, get) => ({
     ? JSON.parse(localStorage.getItem("cart"))
     : [],
   totalPrice: 0,
+  cartItemCount: 0,
   addToCart: (item) => {
     let foundItem = get().cart?.find((cartItem) => cartItem.id === item.id);
 
@@ -78,6 +79,15 @@ const useCartStore = create((set, get) => ({
     });
     set((state) => ({
       totalPrice: total,
+    }));
+  },
+  setCartItemCount: () => {
+    let count = 0;
+    get().cart.forEach((item) => {
+      count += item.quantity;
+    });
+    set((state) => ({
+      cartItemCount: count,
     }));
   },
 }));

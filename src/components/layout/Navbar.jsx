@@ -1,9 +1,11 @@
-import { Box, Group, Title, Text, ActionIcon } from "@mantine/core";
+import { Box, Group, Title, Text, ActionIcon, Indicator } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCart } from "tabler-icons-react";
+import useCartStore from "../../store/useCartStore";
 
 function Navbar() {
   const navigate = useNavigate();
+  const cartItemCount = useCartStore((state) => state.cartItemCount);
 
   return (
     <Box
@@ -35,7 +37,15 @@ function Navbar() {
           color={"indigo"}
           onClick={() => navigate("/cart")}
         >
-          <ShoppingCart size={18} />
+          <Indicator
+            radius={"xl"}
+            color="indigo"
+            inline
+            label={cartItemCount ?? 0}
+            size={14}
+          >
+            <ShoppingCart size={24} />
+          </Indicator>
         </ActionIcon>
         <Text
           sx={(theme) => ({ cursor: "pointer", color: theme.colors.indigo[6] })}
