@@ -1,8 +1,9 @@
+import { lazy } from "react";
 import ProductListPage from "../pages/ProductListPage";
-import ProductDetailPage from "../pages/ProductDetailPage";
-import CartPage from "../pages/CartPage";
-import LoginPage from "../pages/LoginPage";
-import RegisterPage from "../pages/RegisterPage";
+const ProductDetailPage = lazy(() => import("../pages/ProductDetailPage"));
+const CartPage = lazy(() => import("../pages/CartPage"));
+const LoginPage = lazy(() => import("../pages/LoginPage"));
+const RegisterPage = lazy(() => import("../pages/RegisterPage"));
 
 export default [
   {
@@ -16,17 +17,21 @@ export default [
   {
     path: "/products/:id",
     component: ProductDetailPage,
+    lazy: true,
   },
   {
     path: "/cart",
     component: CartPage,
+    lazy: true,
   },
   {
     path: "/login",
     component: LoginPage,
+    lazy: true,
   },
   {
     path: "/register",
     component: RegisterPage,
+    lazy: true,
   },
 ];
