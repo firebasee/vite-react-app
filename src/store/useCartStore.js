@@ -82,12 +82,8 @@ const useCartStore = create((set, get) => ({
     }));
   },
   setCartItemCount: () => {
-    let count = 0;
-    get().cart.forEach((item) => {
-      count += item.quantity;
-    });
     set((state) => ({
-      cartItemCount: count,
+      cartItemCount: state.cart.length,
     }));
   },
 }));

@@ -29,12 +29,15 @@ function ProductDetailPage() {
     (product) => {
       addToCart(product);
       showNotification({
-        message: `Added ${product.title} to cart`,
+        message: `Added item to cart`,
         title: "Item added",
         autoClose: 2000,
         color: "green",
         radius: "md",
-        sx: (theme) => ({ backgroundColor: theme.colors.green[500] }),
+        sx: (theme) => ({
+          backgroundColor: theme.colors.green[500],
+          width: "55%",
+        }),
       });
     },
     [addToCart]

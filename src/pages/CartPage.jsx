@@ -16,12 +16,15 @@ function CartPage() {
     (item) => {
       removeFromCart(item);
       showNotification({
-        message: `Removed ${item.title} from cart`,
+        message: `Removed item from cart`,
         title: "Item removed",
         autoClose: 2000,
         color: "red",
         radius: "md",
-        sx: (theme) => ({ backgroundColor: theme.colors.red[500] }),
+        sx: (theme) => ({
+          backgroundColor: theme.colors.red[500],
+          width: "55%",
+        }),
       });
     },
     [removeFromCart]
