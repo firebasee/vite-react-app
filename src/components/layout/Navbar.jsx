@@ -1,11 +1,35 @@
-import { Box, Group, Title, Text, ActionIcon, Indicator } from "@mantine/core";
+import {
+  Box,
+  Group,
+  Title,
+  Text,
+  ActionIcon,
+  Indicator,
+  Tooltip,
+} from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
-import { ShoppingCart } from "tabler-icons-react";
+import { ShoppingCart, Logout } from "tabler-icons-react";
 import useCartStore from "../../store/useCartStore";
+import useAuthStore from "../../store/useAuthStore";
+import { useEffect } from "react";
 
 function Navbar() {
   const navigate = useNavigate();
   const cartItemCount = useCartStore((state) => state.cartItemCount);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const logout = useAuthStore((state) => state.logout);
+
+  function onLogout() {
+    logout();
+    navigate("/");
+    showNotification({
+      message: "Logout successful",
+      color: "teal",
+    });
+  }
+
+  useEffect(() => {}, [isLoggedIn, logout]);
 
   return (
     <Box
@@ -31,6 +55,7 @@ function Navbar() {
           <em>Store</em>
         </Title>
       </Group>
+
       <Group>
         <ActionIcon
           variant="transparent"
@@ -47,24 +72,41 @@ function Navbar() {
             <ShoppingCart size={24} />
           </Indicator>
         </ActionIcon>
-        <Text
-          sx={(theme) => ({ cursor: "pointer", color: theme.colors.indigo[6] })}
-          size="lg"
-          variant="link"
-          weight={600}
-          onClick={() => navigate("/login")}
-        >
-          Login
-        </Text>
-        <Text
-          sx={(theme) => ({ cursor: "pointer", color: theme.colors.indigo[6] })}
-          size="lg"
-          variant="link"
-          weight={600}
-          onClick={() => navigate("/register")}
-        >
-          Register
-        </Text>
+
+        {isLoggedIn ? (
+          <Tooltip transition={"skew-up"} label="Logout" color="indigo">
+            <ActionIcon onClick={onLogout} color="indigo">
+              <Logout size={24} />
+            </ActionIcon>
+          </Tooltip>
+        ) : (
+          <>
+            <Text
+              sx={(theme) => ({
+                cursor: "pointer",
+                color: theme.colors.indigo[6],
+              })}
+              size="lg"
+              variant="link"
+              weight={600}
+              onClick={() => navigate("/login")}
+            >
+              Login
+            </Text>
+            <Text
+              sx={(theme) => ({
+                cursor: "pointer",
+                color: theme.colors.indigo[6],
+              })}
+              size="lg"
+              variant="link"
+              weight={600}
+              onClick={() => navigate("/register", { replace: true })}
+            >
+              Register
+            </Text>
+          </>
+        )}
       </Group>
     </Box>
   );

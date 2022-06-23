@@ -59,10 +59,10 @@ function RegisterPage() {
       <Stack spacing={20} mb={10}>
         <TextInput
           placeholder="example@mail.com"
-          label="E-mail Address"
-          description="We'll never share your email with anyone else."
-          error={errors?.email?.message}
-          {...register("email")}
+          label="Username"
+          description="Enter your username"
+          error={errors?.username?.message}
+          {...register("username")}
         />
 
         <PasswordInput

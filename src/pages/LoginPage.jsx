@@ -13,10 +13,14 @@ import { LockOpen } from "tabler-icons-react";
 import useYupValidationResolver from "../hooks/useYupValidationResolver";
 import usePageTitle from "../hooks/usePageTitle";
 import { loginSchema } from "../validations/authSchemas";
+import useAuthStore from "../store/useAuthStore";
+import { showNotification } from "@mantine/notifications";
+import baseService from "../services/baseService";
 
 function LoginPage() {
   usePageTitle({ title: "Login" });
   const navigate = useNavigate();
+  const login = useAuthStore((state) => state.login);
   const {
     register,
     handleSubmit,
@@ -26,13 +30,20 @@ function LoginPage() {
     resolver: useYupValidationResolver(loginSchema),
   });
 
-  function onLogin(data) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        console.log(data);
-        resolve();
-      }, 2000);
-    });
+  async function onLogin({ username, password }) {
+    try {
+      await login(username, password);
+      navigate("/", { replace: true });
+      showNotification({
+        message: "Login successful",
+        color: "teal",
+      });
+    } catch (error) {
+      showNotification({
+        message: error?.response?.data ?? "An error occurred",
+        color: "red",
+      });
+    }
   }
 
   return (
@@ -60,10 +71,10 @@ function LoginPage() {
       <Stack spacing={20} mb={10}>
         <TextInput
           placeholder="example@mail.com"
-          label="E-mail Address"
-          description="We'll never share your email with anyone else."
-          error={errors?.email?.message}
-          {...register("email")}
+          label="Username"
+          description="Enter your username"
+          error={errors?.username?.message}
+          {...register("username")}
         />
 
         <PasswordInput
