@@ -1,31 +1,47 @@
-import {
-  Box,
-  Group,
-  Title,
-  Text,
-  ActionIcon,
-  Indicator,
-  Tooltip,
-} from "@mantine/core";
+import { Box, Group, Title, Text, ActionIcon, Indicator } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCart, Logout } from "tabler-icons-react";
 import useCartStore from "../../store/useCartStore";
 import useAuthStore from "../../store/useAuthStore";
 import { useEffect } from "react";
+import { useModals } from "@mantine/modals";
 
 function Navbar() {
   const navigate = useNavigate();
   const cartItemCount = useCartStore((state) => state.cartItemCount);
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const logout = useAuthStore((state) => state.logout);
+  const modals = useModals();
 
   function onLogout() {
-    logout();
-    navigate("/");
-    showNotification({
-      message: "Logout successful",
-      color: "teal",
+    modals.openConfirmModal({
+      title: "Logout?",
+      children: <Text>Are you sure you want to logout?</Text>,
+      labels: {
+        cancel: "Cancel",
+        confirm: "Logout",
+      },
+      onCancel: () => {
+        modals.closeModal();
+      },
+      onConfirm: () => {
+        logout();
+        navigate("/");
+        showNotification({
+          message: "Logout successful",
+          color: "teal",
+        });
+        modals.closeModal();
+      },
+      confirmProps: {
+        color: "red",
+        variant: "subtle",
+      },
+      cancelProps: {
+        color: "indigo",
+        variant: "subtle",
+      },
     });
   }
 
@@ -74,11 +90,17 @@ function Navbar() {
         </ActionIcon>
 
         {isLoggedIn ? (
-          <Tooltip transition={"skew-up"} label="Logout" color="indigo">
-            <ActionIcon onClick={onLogout} color="indigo">
-              <Logout size={24} />
-            </ActionIcon>
-          </Tooltip>
+          <ActionIcon
+            sx={(theme) => ({
+              "&:hover": {
+                backgroundColor: "transparent",
+              },
+            })}
+            onClick={onLogout}
+            color="indigo"
+          >
+            <Logout size={24} />
+          </ActionIcon>
         ) : (
           <>
             <Text

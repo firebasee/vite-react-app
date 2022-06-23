@@ -1,11 +1,13 @@
 import { useCallback, useEffect } from "react";
-import { Box, ScrollArea } from "@mantine/core";
+import { Box, ScrollArea, Text } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
+import { useModals } from "@mantine/modals";
 import CartDetails from "../components/cart/CartDetails";
 import CartSummary from "../components/cart/CartSummary";
 import useCartStore from "../store/useCartStore";
 
 function CartPage() {
+  const modals = useModals();
   const cart = useCartStore((state) => state.cart);
   const setTotalPrice = useCartStore((state) => state.setTotalPrice);
   const removeFromCart = useCartStore((state) => state.removeFromCart);
@@ -13,17 +15,38 @@ function CartPage() {
 
   const handleRemoveFromCart = useCallback(
     (item) => {
-      removeFromCart(item);
-      showNotification({
-        message: `Removed item from cart`,
-        title: "Item removed",
-        autoClose: 2000,
-        color: "red",
-        radius: "md",
-        sx: (theme) => ({
-          backgroundColor: theme.colors.red[500],
-          width: "55%",
-        }),
+      modals.openConfirmModal({
+        title: "Remove from cart?",
+        children: (
+          <Text>
+            Are you sure you want to remove <strong>{item.name}</strong> from
+          </Text>
+        ),
+        labels: {
+          cancel: "Cancel",
+          confirm: "Remove",
+        },
+        onCancel: () => {
+          modals.closeModal();
+        },
+        onConfirm: () => {
+          removeFromCart(item);
+          modals.closeModal();
+          showNotification({
+            message: `Removed item from cart`,
+            title: "Item removed",
+            autoClose: 2000,
+            color: "red",
+            radius: "md",
+            sx: (theme) => ({
+              backgroundColor: theme.colors.red[500],
+              width: "55%",
+            }),
+          });
+        },
+        confirmProps: {
+          color: "red",
+        },
       });
     },
     [removeFromCart]
