@@ -16,6 +16,8 @@ function Navbar() {
 
   function onLogout() {
     modals.openConfirmModal({
+      centered: true,
+      overlayBlur: 1,
       title: "Logout?",
       children: <Text>Are you sure you want to logout?</Text>,
       labels: {

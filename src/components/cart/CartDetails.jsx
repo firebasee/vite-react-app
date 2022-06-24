@@ -43,13 +43,6 @@ function CartDetails({ cart, removeFromCart, total }) {
             );
           })}
       </tbody>
-      <caption style={{ fontWeight: 800, color: "#3a3a3a" }}>
-        Total Price:{" "}
-        {new Intl.NumberFormat("en-US", {
-          style: "currency",
-          currency: "USD",
-        }).format(total)}
-      </caption>
     </Table>
   );
 }

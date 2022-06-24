@@ -16,10 +16,12 @@ function CartPage() {
   const handleRemoveFromCart = useCallback(
     (item) => {
       modals.openConfirmModal({
+        centered: true,
+        overlayBlur: 1,
         title: "Remove from cart?",
         children: (
-          <Text>
-            Are you sure you want to remove <strong>{item.name}</strong> from
+          <Text weight={500}>
+            Are you sure you want to remove {item.name} from
           </Text>
         ),
         labels: {
@@ -68,14 +70,29 @@ function CartPage() {
         },
       })}
     >
-      <Box sx={{ flex: 4 }}>
-        <ScrollArea type="always" sx={{ padding: 4, height: 400 }}>
+      <Box
+        sx={{
+          flex: 4,
+          alignItems: "stretch",
+          rowGap: 25,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <ScrollArea type="always" sx={{ padding: 4, height: 500 }}>
           <CartDetails
             cart={cart}
             removeFromCart={handleRemoveFromCart}
             total={totalPrice}
           />
         </ScrollArea>
+        <Text ml={"auto"} mr={4} weight={600}>
+          Total Price:{" "}
+          {new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD",
+          }).format(totalPrice)}
+        </Text>
       </Box>
       <Box sx={{ flex: 1 }}>
         <CartSummary total={totalPrice} />
