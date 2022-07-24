@@ -1,10 +1,11 @@
 import { useCallback, useEffect } from "react";
-import { Box, ScrollArea, Text } from "@mantine/core";
+import { Box, ScrollArea, Text, Title } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { useModals } from "@mantine/modals";
 import CartDetails from "../components/cart/CartDetails";
 import CartSummary from "../components/cart/CartSummary";
 import useCartStore from "../store/useCartStore";
+import priceFormatter from "../utils/priceFormatter";
 
 function CartPage() {
   const modals = useModals();
@@ -18,12 +19,8 @@ function CartPage() {
       modals.openConfirmModal({
         centered: true,
         overlayBlur: 1,
-        title: "Remove from cart?",
-        children: (
-          <Text weight={500}>
-            Are you sure you want to remove {item.name} from
-          </Text>
-        ),
+        title: <Title order={5}>Item Remove From Cart?</Title>,
+        children: <Text weight={500}>Are you sure you want to remove {item.title} from cart</Text>,
         labels: {
           cancel: "Cancel",
           confirm: "Remove",
@@ -80,18 +77,10 @@ function CartPage() {
         }}
       >
         <ScrollArea type="always" sx={{ padding: 4, height: 500 }}>
-          <CartDetails
-            cart={cart}
-            removeFromCart={handleRemoveFromCart}
-            total={totalPrice}
-          />
+          <CartDetails cart={cart} removeFromCart={handleRemoveFromCart} total={totalPrice} />
         </ScrollArea>
         <Text ml={"auto"} mr={4} weight={600}>
-          Total Price:{" "}
-          {new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-          }).format(totalPrice)}
+          Total Price: {priceFormatter(totalPrice)}
         </Text>
       </Box>
       <Box sx={{ flex: 1 }}>

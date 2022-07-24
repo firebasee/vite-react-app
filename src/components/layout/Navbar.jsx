@@ -1,4 +1,4 @@
-import { Box, Group, Title, Text, ActionIcon, Indicator } from "@mantine/core";
+import { Box, Group, Title, Text, ActionIcon, Indicator, Divider } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCart, Logout } from "tabler-icons-react";
@@ -18,8 +18,8 @@ function Navbar() {
     modals.openConfirmModal({
       centered: true,
       overlayBlur: 1,
-      title: "Logout?",
-      children: <Text>Are you sure you want to logout?</Text>,
+      title: <Title order={3}>Logout?</Title>,
+      children: <Text weight={600}>Are you sure you want to logout?</Text>,
       labels: {
         cancel: "Cancel",
         confirm: "Logout",
@@ -38,7 +38,6 @@ function Navbar() {
       },
       confirmProps: {
         color: "red",
-        variant: "subtle",
       },
       cancelProps: {
         color: "indigo",
@@ -66,27 +65,14 @@ function Navbar() {
       })}
     >
       <Group>
-        <Title
-          sx={(theme) => ({ cursor: "pointer", color: theme.colors.indigo[6] })}
-          onClick={() => navigate("/")}
-        >
+        <Title sx={(theme) => ({ cursor: "pointer", color: theme.colors.indigo[6] })} onClick={() => navigate("/")}>
           <em>Store</em>
         </Title>
       </Group>
 
       <Group>
-        <ActionIcon
-          variant="transparent"
-          color={"indigo"}
-          onClick={() => navigate("/cart")}
-        >
-          <Indicator
-            radius={"xl"}
-            color="indigo"
-            inline
-            label={cartItemCount ?? 0}
-            size={14}
-          >
+        <ActionIcon variant="transparent" color={"indigo"} onClick={() => navigate("/cart")}>
+          <Indicator radius={"xl"} color="indigo" inline label={cartItemCount ?? 0} size={14}>
             <ShoppingCart size={24} />
           </Indicator>
         </ActionIcon>
