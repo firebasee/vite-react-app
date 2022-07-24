@@ -1,14 +1,7 @@
-import {
-  Card,
-  Image,
-  Group,
-  Badge,
-  Text,
-  Button,
-  AspectRatio,
-} from "@mantine/core";
+import { Card, Image, Group, Badge, Text, Button, AspectRatio } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCart } from "tabler-icons-react";
+import priceFormatter from "../../utils/priceFormatter";
 
 function ProductCard({ product, handleAddToCart }) {
   const navigate = useNavigate();
@@ -32,27 +25,16 @@ function ProductCard({ product, handleAddToCart }) {
 
       <Group position="apart" mt={10}>
         <Text weight={700} color="gray">
-          {new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-          }).format(product.price)}
+          {priceFormatter(product.price)}
         </Text>
         <Badge color="indigo">{product.category}</Badge>
       </Group>
 
       <Group mt={15}>
-        <Button
-          variant="subtle"
-          color="indigo"
-          leftIcon={<ShoppingCart size={16} />}
-          onClick={handleAddToCart}
-        >
+        <Button variant="subtle" color="indigo" leftIcon={<ShoppingCart size={16} />} onClick={handleAddToCart}>
           Add to cart
         </Button>
-        <Button
-          variant="light"
-          onClick={() => navigate(`products/${product.id}`)}
-        >
+        <Button variant="light" onClick={() => navigate(`products/${product.id}`)}>
           Details
         </Button>
       </Group>

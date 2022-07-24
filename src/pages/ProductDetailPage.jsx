@@ -1,23 +1,15 @@
+import { useCallback } from "react";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
-import {
-  Box,
-  Alert,
-  Image,
-  Title,
-  Text,
-  Badge,
-  Button,
-  Group,
-  UnstyledButton,
-} from "@mantine/core";
+import { Box, Alert, Image, Title, Text, Badge, Button, Group } from "@mantine/core";
 import { ShoppingCart } from "tabler-icons-react";
 import { getProduct } from "../services/productService";
 import LoadingSpinner from "../components/common/LoadingSpinner";
+import Rating from "../components/common/Rating";
 import usePageTitle from "../hooks/usePageTitle";
 import useCartStore from "../store/useCartStore";
-import { useCallback } from "react";
 import { showNotification } from "@mantine/notifications";
+import priceFormatter from "../utils/priceFormatter";
 
 function ProductDetailPage() {
   const { id } = useParams();
@@ -67,13 +59,7 @@ function ProductDetailPage() {
           flex: 1,
         }}
       >
-        <Image
-          src={data.image}
-          alt={data.title}
-          fit="contain"
-          width="100%"
-          height="70vh"
-        />
+        <Image src={data.image} alt={data.title} fit="contain" width="100%" height="70vh" />
       </Box>
       <Box
         sx={() => ({
@@ -89,45 +75,21 @@ function ProductDetailPage() {
         <Text>{data.description}</Text>
 
         <Group>
-          <>
-            {[...Array(5)].map((_, index) => {
-              index += 1;
-              return (
-                <UnstyledButton
-                  sx={(theme) => ({
-                    cursor: "auto",
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: "transparent",
-                    color:
-                      index <= Math.round(data?.rating?.rate)
-                        ? theme.colors.indigo[5]
-                        : theme.colors.gray[5],
-                  })}
-                >
-                  <span>&#9733;</span>
-                </UnstyledButton>
-              );
-            })}
-          </>
+          <Rating rate={data?.rating?.rate} />
           <Text color="gray" weight={600}>
             {data?.rating?.count} reviews
           </Text>
         </Group>
 
         <Text weight={700} color="gray" size="lg">
-          {new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-          }).format(data.price)}
+          {priceFormatter(data.price)}
         </Text>
 
         <Group mt={"auto"} ml="auto" mb={44}>
           <Button
             size="md"
             color="indigo"
+            variant="light"
             leftIcon={<ShoppingCart size={22} />}
             onClick={() => handleAddToCart(data)}
           >

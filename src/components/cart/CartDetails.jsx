@@ -1,7 +1,8 @@
-import { ActionIcon, Table, Text } from "@mantine/core";
+import { ActionIcon, Table } from "@mantine/core";
 import { Trash } from "tabler-icons-react";
+import priceFormatter from "../../utils/priceFormatter";
 
-function CartDetails({ cart, removeFromCart, total }) {
+function CartDetails({ cart, removeFromCart }) {
   return (
     <Table fontSize={"md"} captionSide="bottom">
       <thead>
@@ -20,20 +21,8 @@ function CartDetails({ cart, removeFromCart, total }) {
               <tr key={i}>
                 <td>{item?.title}</td>
                 <td>{item?.quantity}</td>
-                <td>
-                  {" "}
-                  {new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  }).format(item?.price)}
-                </td>
-                <td>
-                  {" "}
-                  {new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  }).format(item?.price * item?.quantity)}
-                </td>
+                <td>{priceFormatter(item?.price)}</td>
+                <td>{priceFormatter(item?.price * item?.quantity)}</td>
                 <td>
                   <ActionIcon onClick={() => removeFromCart(item)}>
                     <Trash color="#ec4444" />
